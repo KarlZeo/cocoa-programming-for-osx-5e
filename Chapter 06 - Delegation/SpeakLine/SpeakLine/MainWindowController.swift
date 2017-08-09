@@ -10,7 +10,7 @@ import Cocoa
 
 class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSWindowDelegate {
 
-    override var windowNibName: String? {
+    var myWindowNibName: String? {
         return "MainWindowController"
     }
     
@@ -43,7 +43,7 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         if string.isEmpty {
             print("string from \(textField) is empty")
         } else {
-            speechSynth.startSpeakingString(string)
+            speechSynth.startSpeaking(string)
             isStarted = true
         }
     }
@@ -57,11 +57,11 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     
     func updateButtons() {
         if isStarted {
-            speakButton.enabled = false
-            stopButton.enabled = true
+            speakButton.isEnabled = false
+            stopButton.isEnabled = true
         } else {
-            stopButton.enabled = false
-            speakButton.enabled = true
+            stopButton.isEnabled = false
+            speakButton.isEnabled = true
         }
     }
     

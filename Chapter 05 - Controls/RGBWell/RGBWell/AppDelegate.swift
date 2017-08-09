@@ -13,11 +13,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var mainWindowController: MainWindowController?
     
-    
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
-        mainWindowController = MainWindowController()
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        mainWindowController = MainWindowController(windowNibName: NSNib.Name(rawValue: "MainWindowController"))
         mainWindowController!.showWindow(self)
-        
     }
     
     func applicationWillTerminate(aNotification: NSNotification) {

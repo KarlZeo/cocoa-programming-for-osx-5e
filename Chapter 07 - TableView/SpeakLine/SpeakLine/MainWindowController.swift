@@ -10,7 +10,7 @@ import Cocoa
 
 class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate {
 
-    override var windowNibName: String {
+    var myWindowNibName: String {
         return "MainWindowController"
     }
     
@@ -22,7 +22,7 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     
     let speechSynth: NSSpeechSynthesizer = NSSpeechSynthesizer()
     
-    let voices = NSSpeechSynthesizer.availableVoices()
+    let voices = NSSpeechSynthesizer.availableVoices
     
     var isStarted: Bool = false {
         didSet {
@@ -35,10 +35,10 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         super.windowDidLoad()
         updateButtons()
         speechSynth.delegate = self
-        let defaultVoice = NSSpeechSynthesizer.defaultVoice()
-        if let defaultRow = voices.indexOf(defaultVoice) {
+        let defaultVoice = NSSpeechSynthesizer.defaultVoice
+        if let defaultRow = voices.index(of: defaultVoice) {
             let indices = NSIndexSet(index: defaultRow)
-            tableView.selectRowIndexes(indices, byExtendingSelection: false)
+            tableView.selectRowIndexes(indices as IndexSet, byExtendingSelection: false)
             tableView.scrollRowToVisible(defaultRow)
         }
     }
@@ -52,7 +52,7 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         if string.isEmpty {
             print("string from \(textField) is empty")
         } else {
-            speechSynth.startSpeakingString(string)
+            speechSynth.startSpeaking(string)
             isStarted = true
         }
     }
@@ -66,17 +66,17 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     
     func updateButtons() {
         if isStarted {
-            speakButton.enabled = false
-            stopButton.enabled = true
+            speakButton.isEnabled = false
+            stopButton.isEnabled = true
         } else {
-            stopButton.enabled = false
-            speakButton.enabled = true
+            stopButton.isEnabled = false
+            speakButton.isEnabled = true
         }
     }
     
     func voiceNameForIdentifier(identifier: String) -> String? {
-        let attributes = NSSpeechSynthesizer.attributesForVoice(identifier)
-        return attributes[NSVoiceName] as? String
+        let attributes = NSSpeechSynthesizer.attributes(forVoice: NSSpeechSynthesizer.VoiceName(rawValue: identifier))
+        return attributes[NSSpeechSynthesizer.VoiceAttributeKey.name] as? String
     }
     
     
@@ -101,8 +101,8 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
  
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         let voice = voices[row]
-        let voiceName = voiceNameForIdentifier(voice)
-        return voiceName
+        let voiceName = voiceNameForIdentifier(identifier: voice.rawValue)
+        return voiceName as AnyObject
     }
     
     

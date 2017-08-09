@@ -72,9 +72,17 @@ else {
     // do something else
 }
 
-for var i = 0; i < countingUp.count; i++ {
+//for var i = 0; i < countingUp.count; i++ {
+//    let string = countingUp[i]
+//}
+
+for i in 0..<10 {
     let string = countingUp[i]
 }
+
+//for i in countingUp {
+//    var string: String = countingUp[i]
+//}
 
 let range = 0..<countingUp.count
 for i in range {
@@ -85,7 +93,7 @@ for string in countingUp {
     
 }
 
-for (i, string) in countingUp.enumerate() {
+for (i, string) in countingUp.enumerated() {
     
 }
 
